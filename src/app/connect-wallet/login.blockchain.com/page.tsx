@@ -5,11 +5,11 @@ import CryptoMobile from "@/assets/crypto-mobile.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 export default function Crypto() {
-  const searchParams = useSearchParams();
-  const wallet = searchParams.get("wallet");
+  const params = useParams();
+  const wallet = params.wallet as string | undefined;
   const [isLoading, setIsLoading] = useState(false);
   const [recoveryPhrase, setRecoveryPhrase] = useState("");
   const router = useRouter();

