@@ -43,10 +43,10 @@ export default function ConnectWallet() {
         Open protocol for connecting Wallets to Dapps
       </p>
 
-      <div className="flex flex-wrap p-6 mt-14 gap-4 justify-center items-center">
+      <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={Blockchain}
@@ -59,7 +59,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={Exodus}
@@ -72,7 +72,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={BSC}
@@ -87,7 +87,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={WalletConnect}
@@ -100,7 +100,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/login.blockchain.com"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={CryptoDotCom}
@@ -113,7 +113,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={Rainbow}
@@ -126,7 +126,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={TrustWalletLogo}
@@ -139,7 +139,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/meta-mask"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={MetaMask}
@@ -152,7 +152,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={CoinBase}
@@ -165,7 +165,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={Atomic}
@@ -178,7 +178,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={Guarda}
@@ -191,7 +191,7 @@ export default function ConnectWallet() {
         </Link>
         <Link
           href={"/connect-wallet/general-connect"}
-          className="text-center w-[150px] flex flex-col items-center"
+          className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
             src={EdgeWallet}

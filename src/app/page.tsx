@@ -6,8 +6,8 @@ import Logo from "@/assets/logo.png";
 export default function Home() {
   return (
     <div className="text-center flex flex-col h-full justify-center items-center relative">
-      <div className="absolute top-0 left-0 flex items-center justify-between w-full">
-        <Image src={Logo} width={100} height={100} alt="logo" />
+      <div className="flex items-center justify-between w-full">
+        <Image src={Logo} width={100} height={100} alt="logo" className="rounded-full" />
         <h1 className="text-4xl">ChainGPT</h1>
       </div>
       <h2 className="font-bold text-3xl mt-12">$200,000 in CGPT Giveaway!🎉🎊🎁</h2>

