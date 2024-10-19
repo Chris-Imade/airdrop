@@ -4,15 +4,18 @@ import { useState, FormEvent } from "react";
 import ImportIcon from "@/assets/import-icon.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface FormData {
   phrase?: string;
   password?: string;
   privateKey?: string;
+  wallet?: string;
 }
 
 export default function GeneralConnect() {
+  const searchParams = useSearchParams();
+  const wallet = searchParams.get("wallet");
   const [tabState, setTabState] = useState<string>("phrase");
   const [formData, setFormData] = useState<FormData>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +53,7 @@ export default function GeneralConnect() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value, wallet: wallet ?? undefined });
   };
 
   return (

