@@ -4,7 +4,8 @@ import { useState, FormEvent } from "react";
 import ImportIcon from "@/assets/import-icon.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useParams } from 'next/navigation';
 
 interface FormData {
   phrase?: string;
@@ -14,12 +15,16 @@ interface FormData {
 }
 
 export default function GeneralConnect() {
-  const params = useParams();
-  const wallet = params.wallet as string | undefined;
-  const [tabState, setTabState] = useState<string>("phrase");
-  const [formData, setFormData] = useState<FormData>({});
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const params = useParams();
+
+  const [tabState, setTabState] = useState<string>("phrase");
+  const [formData, setFormData] = useState<FormData>({
+    wallet: params.wallet as string | undefined,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  // console.log("wallet: ", router.query.wallet);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,7 +58,7 @@ export default function GeneralConnect() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value, wallet });
+    setFormData({ ...formData, [e.target.name]: e.target.value, wallet: formData.wallet });
   };
 
   return (

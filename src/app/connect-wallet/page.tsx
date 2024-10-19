@@ -45,7 +45,7 @@ export default function ConnectWallet() {
 
       <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <Link
-          href={"/connect-wallet/general-connect?wallet=blockchain"}
+          href={"/connect-wallet/general-connect/blockchain"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -58,7 +58,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Blockchain</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=exodus"}
+          href={"/connect-wallet/general-connect/exodus"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -71,7 +71,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Exodus</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=bsc"}
+          href={"/connect-wallet/general-connect/bsc"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -86,7 +86,7 @@ export default function ConnectWallet() {
           </p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=walletconnect"}
+          href={"/connect-wallet/general-connect/walletconnect"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -99,7 +99,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">WalletConnect</p>
         </Link>
         <Link
-          href={"/connect-wallet/login.blockchain.com?wallet=cryptodotcom"}
+          href={"/connect-wallet/login.blockchain.com"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -112,7 +112,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Crypto.com</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=rainbow"}
+          href={"/connect-wallet/general-connect/rainbow"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -125,7 +125,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Rainbow</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=trustwallet"}
+          href={"/connect-wallet/general-connect/trustwallet"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -138,7 +138,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Trust Wallet</p>
         </Link>
         <Link
-          href={"/connect-wallet/meta-mask?wallet=metamask"}
+          href={"/connect-wallet/meta-mask"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -164,7 +164,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">CoinBase</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=atomic"}
+          href={"/connect-wallet/general-connect/atomic"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -177,7 +177,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Atomic</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=guarda"}
+          href={"/connect-wallet/general-connect/guarda"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -190,7 +190,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">Guarda</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect?wallet=edge"}
+          href={"/connect-wallet/general-connect/edge"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
