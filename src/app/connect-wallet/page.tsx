@@ -45,7 +45,7 @@ export default function ConnectWallet() {
 
       <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <Link
-          href={"/connect-wallet/general-connect/blockchain"}
+          href={"/connect-wallet/login.blockchain.com"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -99,7 +99,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">WalletConnect</p>
         </Link>
         <Link
-          href={"/connect-wallet/login.blockchain.com"}
+          href={"/connect-wallet/general-connect/CryptoDotCom"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
@@ -151,7 +151,7 @@ export default function ConnectWallet() {
           <p className="text-center text-gray-400 text-xl">MetaMask</p>
         </Link>
         <Link
-          href={"/connect-wallet/general-connect"}
+          href={"/connect-wallet/general-connect/coinbase"}
           className="text-center w-[150px] flex flex-col items-center justify-center"
         >
           <Image
